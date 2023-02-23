@@ -1,16 +1,39 @@
 #!/usr/bin/env python3
 
-import sys
+from pathlib import Path
+
+import click
+
+
+@click.group()
+def cli():
+    """Run commands."""
+
+
+@cli.command()
+@click.option("--input", "-i", type=click.Path(exists=True), default=None)
+@click.option("--output", "-o", type=click.Path(), default=None)
+@click.option("--box", "-b", type=click.Path(exists=True), default=None)
+def box(input: str, output: str, box: str):
+    """Draw the bounding boxes on the image."""
+
+    import src.draw_bounding_box
+
+    kwargs = {}
+
+    if box is not None:
+        kwargs["bounding_box_path"] = Path(box)
+
+    if input is not None:
+        kwargs["image_path"] = Path(input)
+
+    if output is not None:
+        kwargs["output_path"] = Path(output)
+
+    src.draw_bounding_box.main(**kwargs)
+
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: hw0 {{bbox}}")
-        sys.exit(1)
+    cli()
 
-    if sys.argv[1] == "bbox":
-        import draw_bounding_box
 
-        sys.exit(draw_bounding_box.main())
-    else:
-        print(f"Unknown command: {sys.argv[1]}")
-        sys.exit(1)

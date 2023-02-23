@@ -4,6 +4,10 @@ from typing import Iterable
 
 import cv2
 
+PROJECT_ROOT = Path.cwd()
+RED = (0, 0, 255)
+THICKNESS = 3
+
 
 @dataclass
 class BoundingBox:
@@ -11,11 +15,6 @@ class BoundingBox:
     right: int
     top: int
     bottom: int
-
-
-PROJECT_ROOT = Path.cwd()
-RED = (0, 0, 255)
-THICKNESS = 3
 
 
 def get_bounding_boxes(bounding_box_path: Path):
@@ -65,16 +64,15 @@ def draw_bounding_boxes(
     cv2.imwrite(str(output_path), image)
 
 
-def main():
+def main(
+    bounding_box_path: Path = PROJECT_ROOT / "data" / "bounding_box.txt",
+    image_path: Path = PROJECT_ROOT / "data" / "image.png",
+    output_path: Path = PROJECT_ROOT / "data" / "output.png",
+):
     """Entry point of the application."""
 
-    bounding_boxes = get_bounding_boxes(PROJECT_ROOT / "data" / "bounding_box.txt")
-
-    draw_bounding_boxes(
-        image_path=PROJECT_ROOT / "data" / "image.png",
-        bounding_boxes=bounding_boxes,
-        output_path=PROJECT_ROOT / "data" / "output.png",
-    )
+    bounding_boxes = get_bounding_boxes(bounding_box_path)
+    draw_bounding_boxes(image_path, bounding_boxes, output_path)
 
 
 if __name__ == "__main__":

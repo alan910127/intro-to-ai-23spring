@@ -2,13 +2,12 @@
 [tool.pdm]
 [tool.pdm.scripts]
 start = "python3 ."
-bbox = { call = "draw_bounding_box:main" }
 
 [project]
 name = "intro-to-ai.hw0"
 version = "0.0.0"
 description = ""
 authors = [{ name = "Li-Lun Lin", email = "alan469357@gmail.com" }]
-dependencies = ["opencv-python-headless>=4.7.0.72"]
+dependencies = ["opencv-python-headless>=4.7.0.72", "click>=8.1.3"]
 requires-python = ">=3.8"
 license = { text = "MIT" }
