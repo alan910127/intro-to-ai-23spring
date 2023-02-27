@@ -113,4 +113,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main(capture_resolution=(1920, 1080))
+    main(resolution_ratio=0.5)
