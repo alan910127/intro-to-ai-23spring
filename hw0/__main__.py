@@ -33,7 +33,24 @@ def box(input: str, output: str, box: str):
     src.draw_bounding_box.main(**kwargs)
 
 
+@cli.command()
+@click.option("--input", "-i", type=click.Path(exists=True), default=None)
+@click.option("--output", "-o", type=click.Path(), default=None)
+def bg(input: str, output: str):
+    """Detect the motion of the video and extract it to a video."""
+
+    import src.remove_background
+
+    kwargs = {}
+
+    if input is not None:
+        kwargs["video_path"] = Path(input)
+
+    if output is not None:
+        kwargs["output_path"] = Path(output)
+
+    src.remove_background.main(**kwargs)
+
+
 if __name__ == "__main__":
     cli()
-
-
