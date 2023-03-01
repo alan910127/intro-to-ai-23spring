@@ -86,6 +86,8 @@ def main(
     output_path: Path = Path.cwd() / "data" / "output.mp4",
     resolution_ratio: float = 0.5,
 ) -> None:
+    """Entry point of the application."""
+
     if output_path.is_dir():
         output_path = output_path / "output.mp4"
 

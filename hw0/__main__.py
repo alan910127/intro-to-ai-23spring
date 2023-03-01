@@ -52,5 +52,20 @@ def bg(input: str, output: str):
     src.remove_background.main(**kwargs)
 
 
+@cli.command()
+@click.option("--input", "-i", type=click.Path(exists=True), default=None)
+def aug(input: str):
+    """Apply five different data augmentation techniques to an image."""
+
+    import src.data_augmentation
+
+    kwargs = {}
+
+    if input is not None:
+        kwargs["input"] = Path(input)
+
+    src.data_augmentation.main(**kwargs)
+
+
 if __name__ == "__main__":
     cli()
