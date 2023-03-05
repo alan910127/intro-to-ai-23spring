@@ -1,3 +1,4 @@
+import logging
 import random
 from pathlib import Path
 from typing import Callable, Literal
@@ -12,6 +13,8 @@ def translate(offset_x: int = 0, offset_y: int = 0) -> Transformer:
     """Create a transformer that translates the image by the given offset."""
 
     def transformer(image: cv2.Mat) -> cv2.Mat:
+        logging.debug(f"translate({offset_x=}, {offset_y=})")
+
         width, height = image.shape[:2]
         matrix = np.float32([[1, 0, offset_x], [0, 1, offset_y]])
         return cv2.warpAffine(image, matrix, (height, width))
@@ -23,6 +26,8 @@ def rotate(degree: int = 0) -> Transformer:
     """Create a transformer that rotates the image by the given angle in degree."""
 
     def transformer(image: cv2.Mat) -> cv2.Mat:
+        logging.debug(f"rotate({degree=})")
+
         width, height = image.shape[:2]
         matrix = cv2.getRotationMatrix2D((width // 2, height // 2), degree, 1)
         return cv2.warpAffine(image, matrix, (height, width))
@@ -34,6 +39,8 @@ def flip(axis: Literal["vertical", "horizontal", "diagonal"]) -> Transformer:
     """Create a transformer that flips the image along the given axis."""
 
     def transformer(image: cv2.Mat) -> cv2.Mat:
+        logging.debug(f"flip({axis=})")
+
         if axis == "vertical":
             return cv2.flip(image, 0)
 
@@ -51,6 +58,8 @@ def scale(
     """Create a transformer that scales the image by the given scale factor."""
 
     def transformer(image: cv2.Mat) -> cv2.Mat:
+        logging.debug(f"scale({scale_x=:.3f}, {scale_y=:.3f})")
+
         return cv2.resize(
             image,
             (0, 0),
@@ -66,6 +75,8 @@ def crop(width: int, height: int, start_x: int = 0, start_y: int = 0) -> Transfo
     """Create a transformer that crops the image."""
 
     def transformer(image: cv2.Mat) -> cv2.Mat:
+        logging.debug(f"crop({width=}, {height=}, {start_x=}, {start_y=})")
+
         return image[start_x : start_x + width, start_y : start_y + height]
 
     return transformer
@@ -75,6 +86,8 @@ def main(
     image_path: Path = Path.cwd() / "data" / "image.png",
 ) -> None:
     """Entry point of the application."""
+
+    logging.basicConfig(level=logging.DEBUG)
 
     image = cv2.imread(str(image_path))
     width, height = image.shape[:2]
